@@ -43,4 +43,39 @@ if answer == "operating system":
 else:
     print("Incorrect!!")
 
+answer = input("What does the PSU stand for? ").lower()
+if answer == "power supply unit":
+    print("Correct!")
+    score += 1
+else:
+    print("Incorrect!!")
+
+answer = input("What does the HDD stand for? ").lower()
+if answer == "hard disk drive":
+    print("Correct!")
+    score += 1
+else:
+    print("Incorrect!!")
+
+answer = input("What does the SSD stand for? ").lower()
+if answer == "solid state drive":
+    print("Correct!")
+    score += 1
+else:
+    print("Incorrect!!")
+
+answer = input("What does the USB stand for? ").lower()
+if answer == "universal serial bus":
+    print("Correct!")
+    score += 1
+else:
+    print("Incorrect!!")
+
+answer = input("What does the DNS stand for? ").lower()
+if answer == "domain name system":
+    print("Correct!")
+    score += 1
+else:
+    print("Incorrect!!")
+
 print("You got " + str(score) + " questions correct!")
