@@ -1,4 +1,5 @@
 import random
+# Juego de adivinar el numero que piensa la computadora.
 
 max_number = input(
     "Type the max of the numbers that the machine will use for the guess game"
