@@ -2,193 +2,198 @@ import random
 from typing import Dict, List
 
 # --------------------------------
-# Game Variants Configuration
+# Configuración de Variantes del Juego
 # --------------------------------
-# Dictionary storing all game variants with their specific rules and choices.
-# Each variant contains:
-# - name: Display name of the variant
-# - choices: List of valid moves
-# - rules: Dictionary defining which moves beat other moves
-GAME_VARIANTS = {
+# Diccionario que almacena todas las variantes del juego con sus reglas y opciones específicas.
+# Cada variante contiene:
+# - nombre: Nombre para mostrar de la variante.
+# - opciones: Lista de jugadas válidas.
+# - reglas: Diccionario que define qué jugadas vencen a otras jugadas.
+
+VARIANTES_JUEGO = {
     "1": {
-        "name": "Classic Game",
-        "choices": ["rock", "paper", "scissors"],
-        "rules": {"rock": ["scissors"], "paper": ["rock"], "scissors": ["paper"]},
+        "nombre": "Juego Clásico",
+        "opciones": ["piedra", "papel", "tijeras"],
+        "reglas": {"piedra": ["tijeras"], "papel": ["piedra"], "tijeras": ["papel"]},
     },
     "2": {
-        "name": "Big Bang Theory",
-        "choices": ["rock", "paper", "scissors", "lizard", "spock"],
-        "rules": {
-            "rock": ["scissors", "lizard"],
-            "paper": ["rock", "spock"],
-            "scissors": ["paper", "lizard"],
-            "lizard": ["paper", "spock"],
-            "spock": ["rock", "scissors"],
+        "nombre": "Big Bang Theory",
+        "opciones": ["piedra", "papel", "tijeras", "lagarto", "spock"],
+        "reglas": {
+            "piedra": ["tijeras", "lagarto"],
+            "papel": ["piedra", "spock"],
+            "tijeras": ["papel", "lagarto"],
+            "lagarto": ["papel", "spock"],
+            "spock": ["piedra", "tijeras"],
         },
     },
     "3": {
-        "name": "European",
-        "choices": ["rock", "paper", "scissors", "well"],
-        "rules": {
-            "rock": ["scissors"],
-            "paper": ["rock", "well"],
-            "scissors": ["paper"],
-            "well": ["rock", "scissors"],
+        "nombre": "Europeo",
+        "opciones": ["piedra", "papel", "tijeras", "pozo"],
+        "reglas": {
+            "piedra": ["tijeras"],
+            "papel": ["piedra", "pozo"],
+            "tijeras": ["papel"],
+            "pozo": ["piedra", "tijeras"],
         },
     },
     "4": {
-        "name": "Shield Hero",
-        "choices": ["rock", "paper", "scissors", "dynamite", "shield"],
-        "rules": {
-            "rock": ["scissors", "dynamite"],
-            "paper": ["rock", "shield"],
-            "scissors": ["paper", "shield"],
-            "dynamite": ["rock", "scissors"],
-            "shield": ["dynamite", "rock"],
+        "nombre": "Héroe del Escudo",
+        "opciones": ["piedra", "papel", "tijeras", "dinamita", "escudo"],
+        "reglas": {
+            "piedra": ["tijeras", "dinamita"],
+            "papel": ["piedra", "escudo"],
+            "tijeras": ["papel", "escudo"],
+            "dinamita": ["piedra", "tijeras"],
+            "escudo": ["dinamita", "piedra"],
         },
     },
     "5": {
-        "name": "Lightning",
-        "choices": ["rock", "paper", "scissors", "tree", "lightning"],
-        "rules": {
-            "rock": ["scissors", "lightning"],
-            "paper": ["rock", "tree"],
-            "scissors": ["paper", "tree"],
-            "tree": ["lightning", "rock"],
-            "lightning": ["paper", "tree"],
+        "nombre": "Rayo",
+        "opciones": ["piedra", "papel", "tijeras", "árbol", "rayo"],
+        "reglas": {
+            "piedra": ["tijeras", "rayo"],
+            "papel": ["piedra", "árbol"],
+            "tijeras": ["papel", "árbol"],
+            "árbol": ["rayo", "piedra"],
+            "rayo": ["papel", "árbol"],
         },
     },
 }
 
 
 # --------------------------------
-# Game Functions
+# Funciones del Juego
 # --------------------------------
 
-def print_tutorial(variant: Dict) -> None:
-    """Print the tutorial for a specific game variant."""
-    print(f"\nTutorial for {variant['name']}:")
-    print(f"Available choices: {', '.join(variant['choices'])}")
-    print("\nRules:")
-    for choice, beats in variant["rules"].items():
-        for beaten in beats:
-            print(f"-> {choice} beats {beaten}")
+
+def imprimir_tutorial(variante: Dict) -> None:
+    """Imprime el tutorial para una variante específica del juego."""
+    print(f"\nTutorial para {variante['nombre']}:")
+    print(f"Opciones disponibles: {', '.join(variante['opciones'])}")
+    print("\nReglas:")
+    for opcion, vence_a_lista in variante["reglas"].items():
+        for vencido in vence_a_lista:
+            print(f"-> {opcion} vence a {vencido}")
 
 
-def get_user_choice(choices: List[str]) -> str:
+def obtener_eleccion_usuario(opciones: List[str]) -> str:
     """
-    Gets and validates the user's move choice.
-    
+    Obtiene y valida la elección de jugada del usuario.
+
     Args:
-        choices (List[str]): List of valid moves the user can choose from
-        
+        opciones (List[str]): Lista de jugadas válidas entre las que el usuario puede elegir.
+
     Returns:
-        str: The user's validated choice from the available moves
-        
-    Note:
-        - Displays numbered options for user selection
-        - Validates input is a valid number within range
-        - Keeps asking until valid input is received
+        str: La elección validada del usuario de entre las jugadas disponibles.
+
+    Nota:
+        - Muestra opciones numeradas para la selección del usuario.
+        - Valida que la entrada sea un número válido dentro del rango.
+        - Sigue preguntando hasta recibir una entrada válida.
     """
     while True:
-        print("\nChoose your move:")
-        for i, choice in enumerate(choices, 1):
-            print(f"{i}: {choice}")
+        print("\nElige tu jugada:")
+        for i, opcion in enumerate(opciones, 1):
+            print(f"{i}: {opcion}")
 
-        user_input = input("\nEnter your choice (number): ")
-        if user_input.isdigit() and 1 <= int(user_input) <= len(choices):
-            return choices[int(user_input) - 1]
-        print("Invalid choice! Please enter a valid number.")
+        entrada_usuario = input("\nIngresa tu elección (número): ")
+        if entrada_usuario.isdigit() and 1 <= int(entrada_usuario) <= len(opciones):
+            return opciones[int(entrada_usuario) - 1]
+        print("¡Elección inválida! Por favor, ingresa un número válido.")
 
 
-def determine_winner(player_choice: str, computer_choice: str, rules: Dict) -> str:
+def determinar_ganador(
+    eleccion_jugador: str, eleccion_computadora: str, reglas: Dict
+) -> str:
     """
-    Determines the winner of the game based on the choices and game rules.
-    
+    Determina el ganador del juego basándose en las elecciones y las reglas del juego.
+
     Args:
-        player_choice (str): The move chosen by the player
-        computer_choice (str): The move chosen by the computer
-        rules (Dict): Dictionary containing the game rules defining which moves beat others
-        
+        eleccion_jugador (str): La jugada elegida por el jugador.
+        eleccion_computadora (str): La jugada elegida por la computadora.
+        reglas (Dict): Diccionario que contiene las reglas del juego, definiendo qué jugadas vencen a otras.
+
     Returns:
-        str: A message indicating the result (win/lose/tie) in both Spanish and English
-        
-    Logic:
-        - If both choices are the same -> Tie
-        - If computer's choice is in the list of moves that player's choice beats -> Player wins
-        - Otherwise -> Computer wins
+        str: Un mensaje indicando el resultado (ganar/perder/empatar).
+
+    Lógica:
+        - Si ambas elecciones son iguales -> Empate.
+        - Si la elección de la computadora está en la lista de jugadas que la elección del jugador vence -> El jugador gana.
+        - De lo contrario -> La computadora gana.
     """
-    if player_choice == computer_choice:
-        return "¡Empate! / It's a tie!"
-    elif computer_choice in rules[player_choice]:
-        return "¡Ganaste! / You won! 🎉"
+    if eleccion_jugador == eleccion_computadora:
+        return "¡Es un empate!"
+    elif eleccion_computadora in reglas[eleccion_jugador]:
+        return "¡Ganaste! 🎉"
     else:
-        return "¡Perdiste! / You lost! 😢"
+        return "¡Perdiste! 😢"
 
 
-def main():
+def principal():
     """
-    Main game function that controls the game flow.
-    
-    Flow:
-        1. Displays welcome message in Spanish and English
-        2. Shows available game variants
-        3. Gets user's choice of game variant
-        4. Offers optional tutorial
-        5. Starts main game loop:
-           - Gets player's move
-           - Generates computer's move
-           - Determines winner
-           - Asks to play again
-        6. Shows goodbye message when player finishes
-        
-    Note:
-        - The game is bilingual (Spanish/English)
-        - Each variant has its own set of rules and moves
-        - The computer's choice is randomly selected
+    Función principal del juego que controla el flujo del mismo.
+
+    Flujo:
+        1. Muestra mensaje de bienvenida.
+        2. Muestra las variantes de juego disponibles.
+        3. Obtiene la elección de variante de juego del usuario.
+        4. Ofrece un tutorial opcional.
+        5. Inicia el bucle principal del juego:
+           - Obtiene la jugada del jugador.
+           - Genera la jugada de la computadora.
+           - Determina el ganador.
+           - Pregunta si desea jugar de nuevo.
+        6. Muestra mensaje de despedida cuando el jugador termina.
+
+    Nota:
+        - El juego está completamente en español.
+        - Cada variante tiene su propio conjunto de reglas y jugadas.
+        - La elección de la computadora se selecciona aleatoriamente.
     """
-    print(
-        "¡Bienvenido al juego de Piedra, Papel o Tijera! / Welcome to Rock, Paper, Scissors Game!"
-    )
-    print("\nAvailable versions:")
-    for key, variant in GAME_VARIANTS.items():
-        print(f"{key}: {variant['name']}")
+    print("¡Bienvenido al juego de Piedra, Papel o Tijeras!")
+    print("\nVersiones disponibles:")
+    for clave, variante_info in VARIANTES_JUEGO.items():
+        print(f"{clave}: {variante_info['nombre']}")
 
-    # Get game version
+    # Obtener versión del juego
     while True:
-        game_version = input("\nChoose a version (1-5): ")
-        if game_version in GAME_VARIANTS:
+        version_juego_elegida = input("\nElige una versión (1-5): ")
+        if version_juego_elegida in VARIANTES_JUEGO:
             break
-        print("Invalid version! Please choose a number between 1 and 5.")
+        print("¡Versión inválida! Por favor, elige un número entre 1 y 5.")
 
-    variant = GAME_VARIANTS[game_version]
+    variante_actual = VARIANTES_JUEGO[version_juego_elegida]
 
-    # Show tutorial if requested
-    tutorial = input("\nDo you want to see the tutorial? (yes/no): ").lower()
-    if tutorial.startswith("y"):
-        print_tutorial(variant)
+    # Mostrar tutorial si se solicita
+    ver_tutorial = input("\n¿Quieres ver el tutorial? (sí/no): ").lower()
+    if ver_tutorial.startswith("s"):  # 's' para "sí"
+        imprimir_tutorial(variante_actual)
 
-    # Main game loop
+    # Bucle principal del juego
     while True:
-        # Get choices
-        player_choice = get_user_choice(variant["choices"])
-        computer_choice = random.choice(variant["choices"])
+        # Obtener elecciones
+        eleccion_jugador = obtener_eleccion_usuario(variante_actual["opciones"])
+        eleccion_computadora = random.choice(variante_actual["opciones"])
 
-        # Show choices
-        print(f"\nYour choice: {player_choice}")
-        print(f"Computer's choice: {computer_choice}")
+        # Mostrar elecciones
+        print(f"\nTu elección: {eleccion_jugador}")
+        print(f"Elección de la computadora: {eleccion_computadora}")
 
-        # Determine and show winner
-        result = determine_winner(player_choice, computer_choice, variant["rules"])
-        print(f"\n{result}")
+        # Determinar y mostrar ganador
+        resultado = determinar_ganador(
+            eleccion_jugador, eleccion_computadora, variante_actual["reglas"]
+        )
+        print(f"\n{resultado}")
 
-        # Play again?
-        play_again = input("\nDo you want to play again? (yes/no): ").lower()
-        if not play_again.startswith("y"):
+        # ¿Jugar de nuevo?
+        jugar_de_nuevo = input("\n¿Quieres jugar de nuevo? (sí/no): ").lower()
+        if not jugar_de_nuevo.startswith("s"):  # 's' para "sí"
             break
 
-    print("\n¡Gracias por jugar! / Thanks for playing!")
+    print("\n¡Gracias por jugar!")
 
 
 if __name__ == "__main__":
-    main()
+    principal()
+
